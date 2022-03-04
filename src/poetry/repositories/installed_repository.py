@@ -233,6 +233,9 @@ class InstalledRepository(Repository):
                 metadata.distributions(path=[entry]),
                 key=lambda d: str(d._path),
             ):
+                # fix for https://github.com/python-poetry/poetry/issues/3628
+                if distribution.metadata["name"] is None:
+                    continue
                 name = canonicalize_name(distribution.metadata["name"])
 
                 if name in seen:
